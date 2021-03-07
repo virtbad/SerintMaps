@@ -31,13 +31,32 @@ const DownloadButton: React.FC<DownloadProps> = ({ json }): JSX.Element => {
 };
 
 interface UploadProps {
-  onUpload?: () => void;
+  onUpload?: (map: Array<Tile>) => void;
 }
 
 const UploadButton: React.FC<UploadProps> = ({ onUpload }): JSX.Element => {
   return (
     <div className="action-button">
-      <input id="upload_" style={{ display: "none" }} type="file" accept="application/json" />
+      <input
+        id="upload_"
+        style={{ display: "none" }}
+        type="file"
+        accept="application/json"
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          const files: FileList | null = event.target.files;
+          if (!files) return;
+          const file: File = files[0];
+          if (file.type !== "application/json") return console.log("[Upload/Error] File has to be of type json");
+          file.text().then((text: string) => {
+            const json: object = JSON.parse(text);
+            if (!Array.isArray(json)) return console.log("[Upload/Error] Content has to be json array");
+            const mapped: Array<Tile> = json
+              .filter((value: any) => value.x && value.y && value.type)
+              .map((value: any) => ({ x: value.x, y: value.y, type: value.type }));
+            onUpload && onUpload(mapped);
+          });
+        }}
+      />
       <label htmlFor="upload_">
         <svg
           className="action-button-svg"
@@ -66,7 +85,9 @@ const App: React.FC = (): JSX.Element => {
 
   const [map, setMap] = useState<Array<Tile>>([]);
 
-  useEffect(() => console.log("Pen changed to", pen), [pen]);
+  const [uploadedMap, setUploadedMap] = useState<Array<Tile>>([]);
+
+  useEffect(() => console.log(`[Pen/Change] Pen changed to "${pen}"`), [pen]);
 
   return (
     <main className="main" ref={ref}>
@@ -108,10 +129,19 @@ const App: React.FC = (): JSX.Element => {
         </div>
         <div className="title-subcontainer">
           <DownloadButton json={map} />
-          <UploadButton />
+          <UploadButton
+            onUpload={async (map: Array<Tile>) => {
+              const x: number = Math.max(...map.map(({ x }) => x)) + 2;
+              const y: number = Math.max(...map.map(({ y }) => y)) + 2;
+              setColumns(x);
+              setRows(y);
+              setUploadedMap(map);
+            }}
+          />
         </div>
       </header>
       <GameField
+        upload={uploadedMap}
         pen={pen}
         rows={rows}
         columns={columns}

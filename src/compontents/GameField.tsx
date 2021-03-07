@@ -5,11 +5,12 @@ interface Props {
   rows: number;
   columns: number;
   pen: TileType;
+  upload: Array<Tile>;
   onChange?: (field: Tile) => void;
   onDelete?: ({ x, y }: { x: number; y: number }) => void;
 }
 
-const GameField: React.FC<Props> = ({ rows, columns, pen, onChange, onDelete }): JSX.Element => {
+const GameField: React.FC<Props> = ({ rows, columns, pen, upload, onChange, onDelete }): JSX.Element => {
   const [dimensions, setDimensions] = useState<{ height: number; width: number }>({
     height: window.innerHeight - 192,
     width: window.innerWidth - 192,
@@ -96,7 +97,10 @@ const GameField: React.FC<Props> = ({ rows, columns, pen, onChange, onDelete }):
     onDelete && onDelete({ x: posX, y: posY });
   };
 
-  useEffect(() => {
+  const redraw: Function = (change: boolean = false) => {
+    if (!canvas || !context) return;
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, canvas.height, canvas.width);
     map.forEach((tile: Tile) => {
       const top: number = map.find(({ x, y }) => x === tile.x && y === tile.y - 1) ? paintExtent : 0;
       const bottom: number = map.find(({ x, y }) => x === tile.x && y === tile.y + 1) ? paintExtent : 0;
@@ -108,8 +112,26 @@ const GameField: React.FC<Props> = ({ rows, columns, pen, onChange, onDelete }):
         left: left,
         right: right,
       });
+      change && onChange && onChange(tile);
     });
+  };
+
+  useEffect(() => {
+    console.log("[Upload/Info] Upadating map to uploaded map");
+    setMap(upload);
+  }, [upload]);
+
+  useEffect(() => {
+    console.log("[Resize/Info] Redraw resized map");
+    redraw();
   }, [dimensions]);
+
+  useEffect(() => {
+    if (map === upload) {
+      console.log("[Upload/Info] Redraw uploaded map");
+      redraw(true);
+    }
+  }, [map]);
 
   return (
     <canvas
@@ -127,8 +149,13 @@ const GameField: React.FC<Props> = ({ rows, columns, pen, onChange, onDelete }):
       onClick={(event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
         const x: number = event.clientX - (rect?.left || 0);
         const y: number = event.clientY - (rect?.top || 0);
-        const hex: string = toHEX(context?.getImageData(x, y, 1, 1).data);
-        if (color.startsWith(hex.substr(0, 6))) return;
+        if (!context) return;
+        const imageData: Uint8ClampedArray = context.getImageData(x, y, 1, 1).data;
+        const { r, g, b }: { r: number; g: number; b: number } = toRGB(color);
+        const iR: number = imageData[0],
+          iG: number = imageData[1],
+          iB: number = imageData[2];
+        if (iR >= r - 1 && iR <= r + 1 && iG >= g - 1 && iG <= g + 1 && iB >= b - 1 && iB <= b + 1) return;
         else paintElement(x, y, pen);
       }}
       onMouseMove={(event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
@@ -136,19 +163,30 @@ const GameField: React.FC<Props> = ({ rows, columns, pen, onChange, onDelete }):
         const mode: PaintMode = event.buttons;
         const x: number = event.clientX - (rect?.left || 0);
         const y: number = event.clientY - (rect?.top || 0);
-        const hex: string = toHEX(context?.getImageData(x, y, 1, 1).data);
+        if (!context) return;
+        const imageData: Uint8ClampedArray = context.getImageData(x, y, 1, 1).data;
+        const hex: string = toHEX(imageData);
+        const { r, g, b }: { r: number; g: number; b: number } = toRGB(color);
+        const iR: number = imageData[0],
+          iG: number = imageData[1],
+          iB: number = imageData[2];
         if (mode === PaintMode.RUB) hex !== "#ffffff" && hex !== "#000000" && rubElement(x, y);
-        else if (color.startsWith(hex.substr(0, 6))) return;
+        else if (iR >= r - 1 && iR <= r + 1 && iG >= g - 1 && iG <= g + 1 && iB >= b - 1 && iB <= b + 1) return;
         else paintElement(x, y, pen);
-        console.log(color, hex);
       }}
     />
   );
 };
 
-function toHEX(rgba?: Uint8ClampedArray) {
+const toHEX = (rgba?: Uint8ClampedArray): string => {
   if (!rgba) return "#ffffff";
   return "#" + ((1 << 24) + (rgba[0] << 16) + (rgba[1] << 8) + rgba[2]).toString(16).slice(1);
-}
+};
+
+const toRGB = (hex: string): { r: number; g: number; b: number } => {
+  const result: RegExpExecArray | null = /^#?([a-fd0-9]{2})([a-fd0-9]{2})([a-fd0-9]{2})$/i.exec(hex);
+  if (result) return { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) };
+  else return { r: 255, g: 255, b: 255 };
+};
 
 export default GameField;
