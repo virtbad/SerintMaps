@@ -117,7 +117,7 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <main className="main" ref={ref}>
-      <div className="version" children={version(Status.BETA)} />
+      <div className="version" children={version(Status.PRERELEASE)} />
       <header className="title-container">
         <div className="title-subcontainer">
           <p className="title-element" children="serint-maps" />
