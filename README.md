@@ -1,12 +1,17 @@
-# serint-maps
+# [SerintMaps](https://maps.serint.ga)
 
 > A map generator tool for the Serint project.
 
-## Available Scripts
+## Functions
+* Upload existing maps using the upload icon
+* Adjust the size of the canvas to your needs
+* Select different pens for different blocks
+* Download the drawn map as json file
 
-In the project directory, you can run:
+## Local use
+* Clone the repository 
+* Run `npm i` to install all dependencies 
+* Run `npm start` to start a dev server on http://localhost:3000
 
-### `npm start`
-
-Runs the app.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+ ## License
+ MIT © [VirtBad](https://github.com/virtbad/)
