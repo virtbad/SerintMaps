@@ -8,9 +8,10 @@ interface Props {
   upload: Array<Tile>;
   onChange?: (field: Tile) => void;
   onDelete?: ({ x, y }: { x: number; y: number }) => void;
+  onRedraw?: (map: Array<Tile>) => void;
 }
 
-const GameField: React.FC<Props> = ({ rows, columns, pen, upload, onChange, onDelete }): JSX.Element => {
+const GameField: React.FC<Props> = ({ rows, columns, pen, upload, onChange, onDelete, onRedraw }): JSX.Element => {
   const [dimensions, setDimensions] = useState<{ height: number; width: number }>({
     height: window.innerHeight - 192,
     width: window.innerWidth - 192,
@@ -39,7 +40,27 @@ const GameField: React.FC<Props> = ({ rows, columns, pen, upload, onChange, onDe
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleResize = () => setDimensions({ height: window.innerHeight - 192, width: window.innerWidth - 192 });
+  /**
+   * Resize handler to adjust the size of the canvas
+   *
+   * @returns void
+   */
+
+  const handleResize = (): void => setDimensions({ height: window.innerHeight - 192, width: window.innerWidth - 192 });
+
+  /**
+   * Internal draw function
+   *
+   * @param x x-position of the pixel to be painted
+   *
+   * @param y y-position of the pixel to be painted
+   *
+   * @param color color of the pixel
+   *
+   * @param extent additional extent in different directions (optional)
+   *
+   * @returns void
+   */
 
   const draw: Function = (x: number, y: number, color: string, extent: Extent = {}): void => {
     if (!context) return;
@@ -50,7 +71,19 @@ const GameField: React.FC<Props> = ({ rows, columns, pen, upload, onChange, onDe
     context.fillRect(x * size - left, y * size - top, size + left + right, size + top + bottom);
   };
 
-  const paintElement: Function = (x: number, y: number, tile: TileType) => {
+  /**
+   * Paint or repaint a pixel on the canvas
+   *
+   * @param x x-position of the element to be painted
+   *
+   * @param y y-position of the element to be painted
+   *
+   * @param tile TileType of the element
+   *
+   * @returns void
+   */
+
+  const paintElement: Function = (x: number, y: number, tile: TileType): void => {
     const size: number = height / rows;
     const posX: number = Math.floor(x / size);
     const posY: number = Math.floor(y / size);
@@ -66,38 +99,49 @@ const GameField: React.FC<Props> = ({ rows, columns, pen, upload, onChange, onDe
       left: left,
       right: right,
     });
-    if (!map.find(({ x, y }) => x === posX && y === posY)) setMap([...map, { x: posX, y: posY, type: tile }]);
-    else setMap(map.map(({ type, ...pos }) => ({ ...pos, type: pos === { x: posX, y: posY } ? tile : type })));
+    setMap([...map.filter(({ x, y }: Tile) => !(posX === x && posY === y)), { x: posX, y: posY, type: tile }]);
     onChange && onChange({ x: posX, y: posY, type: tile });
   };
 
-  const rubElement: Function = (x: number, y: number) => {
+  /**
+   * Rub a pixel from the canvas
+   *
+   * @param x x-position of the element to be rub
+   *
+   * @param y y-position of the element to be rub
+   *
+   * @returns void
+   */
+
+  const rubElement: Function = (x: number, y: number): void => {
     const size: number = height / rows;
     const posX: number = Math.floor(x / size);
     const posY: number = Math.floor(y / size);
-
     const top: Tile | undefined = map.find(({ x, y }) => x === posX && y === posY - 1);
     const bottom: Tile | undefined = map.find(({ x, y }) => x === posX && y === posY + 1);
     const left: Tile | undefined = map.find(({ x, y }) => x === posX - 1 && y === posY);
     const right: Tile | undefined = map.find(({ x, y }) => x === posX + 1 && y === posY);
-
     draw(posX, posY, "#ffffff", {
       top: rubExtent,
       bottom: rubExtent,
       left: rubExtent,
       right: rubExtent,
     });
-
     draw(posX, posY - 1, top ? TileColor[top.type] : "#ffffff");
     draw(posX, posY + 1, bottom ? TileColor[bottom.type] : "#ffffff");
     draw(posX - 1, posY, left ? TileColor[left.type] : "#ffffff");
     draw(posX + 1, posY, right ? TileColor[right.type] : "#ffffff");
-
     setMap(map.filter((tile: Tile) => !(tile.x === posX && tile.y === posY)));
     onDelete && onDelete({ x: posX, y: posY });
   };
 
-  const redraw: Function = (change: boolean = false) => {
+  /**
+   * Redraw the whole map
+   *
+   * @returns void
+   */
+
+  const redraw: Function = (): void => {
     if (!canvas || !context) return;
     context.fillStyle = "#ffffff";
     context.fillRect(0, 0, canvas.height, canvas.width);
@@ -112,25 +156,15 @@ const GameField: React.FC<Props> = ({ rows, columns, pen, upload, onChange, onDe
         left: left,
         right: right,
       });
-      change && onChange && onChange(tile);
     });
   };
 
-  useEffect(() => {
-    console.log("[Upload/Info] Upadating map to uploaded map");
-    setMap(upload);
-  }, [upload]);
+  useEffect(() => setMap(upload), [upload]);
+
+  useEffect(() => redraw(), [dimensions]);
 
   useEffect(() => {
-    console.log("[Resize/Info] Redraw resized map");
-    redraw();
-  }, [dimensions]);
-
-  useEffect(() => {
-    if (map === upload) {
-      console.log("[Upload/Info] Redraw uploaded map");
-      redraw(true);
-    }
+    if (map === upload) onRedraw && onRedraw(map) && redraw();
   }, [map]);
 
   return (

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import GameField from "./GameField";
-import { Tile, TileColor, TileType } from "../types";
+import { Status, Tile, TileColor, TileType } from "../types";
+import { version } from "../version";
 
 interface DownloadProps {
   json: Array<Tile>;
@@ -87,10 +88,36 @@ const App: React.FC = (): JSX.Element => {
 
   const [uploadedMap, setUploadedMap] = useState<Array<Tile>>([]);
 
-  useEffect(() => console.log(`[Pen/Change] Pen changed to "${pen}"`), [pen]);
+  useEffect(() => {
+    document.addEventListener("keypress", handleKeypress);
+    return () => document.removeEventListener("keypress", handleKeypress);
+  }, []);
+
+  /**
+   * Handle a keypress on the document
+   *
+   * If the keyCode matches a given code a pen gets selected
+   *
+   * @param event KeyboardEvent
+   *
+   *  @returns void
+   */
+
+  const handleKeypress = (event: KeyboardEvent): void => {
+    const gravel: number = 43;
+    const grass: number = 34;
+    const brick: number = 42;
+    const stone: number = 231;
+    const code: number = event.keyCode;
+    if (code === gravel && pen !== "GRAVEL") setPen("GRAVEL");
+    else if (code === grass && pen !== "GRASS") setPen("GRASS");
+    else if (code === brick && pen !== "BRICK") setPen("BRICK");
+    else if (code === stone && pen !== "STONE") setPen("STONE");
+  };
 
   return (
     <main className="main" ref={ref}>
+      <div className="version" children={version(Status.BETA)} />
       <header className="title-container">
         <div className="title-subcontainer">
           <p className="title-element" children="serint-maps" />
@@ -145,8 +172,9 @@ const App: React.FC = (): JSX.Element => {
         pen={pen}
         rows={rows}
         columns={columns}
+        onRedraw={(map: Array<Tile>) => setMap(map)}
         onChange={(tile: Tile) => {
-          setMap([...map.filter(({ x, y }: Tile) => !(tile.x === x && tile.y === y)), tile]);
+          setMap([...map.filter(({ x, y }: Tile) => !(tile.x === x && tile.y === y)), { ...tile }]);
         }}
         onDelete={({ x, y }) => setMap(map.filter((tile: Tile) => !(tile.x === x && tile.y === y)))}
       />

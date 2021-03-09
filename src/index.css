@@ -57,6 +57,14 @@ button {
   cursor: pointer;
 }
 
+.version {
+  position: absolute;
+  display: flex;
+  bottom: 2rem;
+  right: 2rem;
+  font-size: 24px;
+}
+
 .title-container {
   display: flex;
   justify-content: space-between;

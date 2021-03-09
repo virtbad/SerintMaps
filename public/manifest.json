@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "serint-maps",
+  "name": "A tool to generate maps for the Serint game",
   "icons": [
     {
       "src": "favicon.ico",

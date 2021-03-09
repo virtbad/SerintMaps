@@ -24,3 +24,10 @@ export interface Extent {
   bottom?: number;
   right?: number;
 }
+
+export enum Status {
+  ALPHA = "-alpha",
+  BETA = "-beta",
+  PRERELEASE = "-pre",
+  RELEASE = "",
+}
