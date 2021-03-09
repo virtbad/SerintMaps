@@ -108,11 +108,12 @@ const App: React.FC = (): JSX.Element => {
     const grass: number = 34;
     const brick: number = 42;
     const stone: number = 231;
+    event.preventDefault();
     const code: number = event.keyCode;
-    if (code === gravel && pen !== "GRAVEL") setPen("GRAVEL");
-    else if (code === grass && pen !== "GRASS") setPen("GRASS");
-    else if (code === brick && pen !== "BRICK") setPen("BRICK");
-    else if (code === stone && pen !== "STONE") setPen("STONE");
+    if (code === gravel) setPen("GRAVEL");
+    else if (code === grass) setPen("GRASS");
+    else if (code === brick) setPen("BRICK");
+    else if (code === stone) setPen("STONE");
   };
 
   return (
