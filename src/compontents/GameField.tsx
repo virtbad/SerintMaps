@@ -258,6 +258,7 @@ const GameField: React.FC = (): JSX.Element => {
     switch (mode) {
       case "TILE":
         setActions(actions.filter(({ x, y }: Action) => !(x === fieldX && y === fieldY)));
+        setCosmetics(cosmetics.filter(({ x, y }: Cosmetic) => !(x === fieldX && y === fieldY)));
         setTiles(tiles.filter(({ x, y }: Tile) => !(x === fieldX && y === fieldY)));
         break;
       case "LIGHT":
