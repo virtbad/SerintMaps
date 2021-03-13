@@ -4,6 +4,10 @@
 
 > A map generator tool for the Serint project.
 
+## Related
+* [SerintServer](https://github.com/virtbad/SerintServer) - Server for the Serint project
+* [SerintClient](https://github.com/virtbad/SerintClient) - Client for the Serint project
+
 ## Functions
 ### Download and Upload
 There is a download and upload function. When you're finished with your map you can simply use the download button to download the map. The structure of the map can you find [here](https://github.com/virtbad/SerintMaps#Map). The same way you can upload a map json to edit it further. Before uploading a map you should make sure the json file matches the expected [map pattern](https://github.com/virtbad/SerintMaps#Map). If it doesn't match you won't be able to upload the map. 
