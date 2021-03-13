@@ -1,7 +1,38 @@
-export interface Tile {
+export interface Map {
+  height: number;
+  width: number;
+  tiles: Array<Tile>;
+  lights: Array<LightSource>;
+  actions: Array<Action>;
+  cosmetics: Array<Cosmetic>;
+}
+
+export interface Tile extends Point {
+  type: TileType;
+}
+
+export interface LightSource extends Point {
+  color: RGB;
+  intensity: number;
+}
+
+export interface Action extends Point {
+  type: ActionType;
+}
+
+export interface Cosmetic extends Point {
+  type: CosmeticType;
+}
+
+export interface Point {
   x: number;
   y: number;
-  type: TileType;
+}
+
+export interface RGB {
+  r: number;
+  g: number;
+  b: number;
 }
 
 export enum PaintMode {
@@ -16,14 +47,30 @@ export enum TileColor {
   "STONE" = "#abb7ba",
 }
 
+export enum ModeColor {
+  "COSMETIC" = "#a83291",
+  "ACTION" = "#4632a8",
+  "LIGHT" = "#329ca8",
+  "TILE" = "#32a867",
+}
+
+export enum ActionColor {
+  "ITEM" = "#ad19cf",
+  "SPAWN" = "#cf7119",
+}
+
+export enum CosmeticColor {
+  "COBWEB" = "#a89032",
+  "CRACK" = "#a83250",
+}
+
 export type TileType = "GRAVEL" | "GRASS" | "BRICK" | "STONE";
 
-export interface Extent {
-  top?: number;
-  left?: number;
-  bottom?: number;
-  right?: number;
-}
+export type ActionType = "ITEM" | "SPAWN";
+
+export type CosmeticType = "COBWEB" | "CRACK";
+
+export type Mode = "COSMETIC" | "ACTION" | "LIGHT" | "TILE";
 
 export enum Status {
   ALPHA = "-alpha",

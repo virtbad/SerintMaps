@@ -57,35 +57,32 @@ button {
   cursor: pointer;
 }
 
-.version {
-  position: absolute;
-  display: flex;
-  bottom: 2rem;
-  right: 2rem;
-  font-size: 24px;
-}
-
 .title-container {
   display: flex;
   justify-content: space-between;
-  position: absolute;
-  top: 2rem;
   width: 100%;
   max-width: 100vw;
   font-size: 24px;
   user-select: none;
+  max-height: 96px;
+  height: 96px;
 }
 
-.title-subcontainer {
+.subcontainer {
+  flex: 1;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.title-subcontainer:first-child {
+.subcontainer:first-child {
   padding-left: 2rem;
+  justify-content: flex-start;
 }
 
-.title-subcontainer:last-child {
+.subcontainer:last-child {
   padding-right: 2rem;
+  justify-content: flex-end;
 }
 
 .title-element {
@@ -93,6 +90,10 @@ button {
   margin-right: 1.5rem;
   justify-content: center;
   align-items: center;
+}
+
+.title-element:last-child {
+  margin-right: 0;
 }
 
 .size-container {
@@ -112,6 +113,8 @@ button {
 }
 
 .main {
+  max-height: 100vh;
+  max-width: 100vw;
   height: 100vh;
   width: 100vw;
   padding: 0;
@@ -119,16 +122,54 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.center {
+  flex: 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .map-container {
-  border: solid 1px #fff;
+  border: solid 1px #ffffff;
   display: grid;
-  background-color: #fff;
+  background-color: #ffffff;
 }
 
 .button {
   padding: 0rem;
   background-color: transparent;
   border-bottom: solid 2px rgb(235, 231, 231);
+  transition: all 0.3s;
+}
+
+.foot-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100vw;
+  font-size: 24px;
+  user-select: none;
+  max-height: 96px;
+  height: 96px;
+}
+
+.version {
+  display: flex;
+}
+
+.rgb-preview {
+  margin: 0 1rem;
+  padding: 1rem;
+}
+
+.rgb-input {
+  user-select: text;
+  background-color: transparent;
+  font-size: 24px;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  width: 2ch;
 }
