@@ -13,6 +13,7 @@ interface Global {
   actions: Array<Action>;
   cosmetics: Array<Cosmetic>;
   dimensions: { height: number; width: number };
+  name: string;
   setMode: (mode: Mode) => void;
   setPen: (pen: TileType) => void;
   setRgb: (rgb: RGB) => void;
@@ -24,6 +25,7 @@ interface Global {
   setActions: (actions: Array<Action>) => void;
   setCosmetics: (cosmetics: Array<Cosmetic>) => void;
   setDimensions: (dimensions: { height: number; width: number }) => void;
+  setName: (name: string) => void;
 }
 
 const defaultValue: Global = {
@@ -38,6 +40,7 @@ const defaultValue: Global = {
   actions: [],
   cosmetics: [],
   dimensions: { width: 10, height: 10 },
+  name: "Unnamed Map",
   setMode: () => {},
   setPen: () => {},
   setRgb: () => {},
@@ -49,6 +52,7 @@ const defaultValue: Global = {
   setActions: () => {},
   setCosmetics: () => {},
   setDimensions: () => {},
+  setName: () => {},
 };
 
 export const GlobalContext = createContext<Global>(defaultValue);
@@ -65,6 +69,7 @@ export const GlobalProvider: React.FC = ({ children }): JSX.Element => {
   const [actions, updateActions] = useState<Array<Action>>(defaultValue.actions);
   const [cosmetics, updateCosmetics] = useState<Array<Cosmetic>>(defaultValue.cosmetics);
   const [dimensions, updateDimensions] = useState<{ height: number; width: number }>(defaultValue.dimensions);
+  const [name, updateName] = useState<string>(defaultValue.name);
 
   const setMode = (m: Mode) => m !== mode && updateMode(m);
 
@@ -88,6 +93,8 @@ export const GlobalProvider: React.FC = ({ children }): JSX.Element => {
 
   const setDimensions = (d: { height: number; width: number }) => d !== dimensions && updateDimensions(d);
 
+  const setName = (n: string) => n !== name && updateName(n);
+
   return (
     <GlobalContext.Provider
       value={{
@@ -102,6 +109,7 @@ export const GlobalProvider: React.FC = ({ children }): JSX.Element => {
         actions: actions,
         cosmetics: cosmetics,
         dimensions: dimensions,
+        name: name,
         setMode: setMode,
         setPen: setPen,
         setRgb: setRgb,
@@ -113,6 +121,7 @@ export const GlobalProvider: React.FC = ({ children }): JSX.Element => {
         setActions: setActions,
         setCosmetics: setCosmetics,
         setDimensions: setDimensions,
+        setName: setName,
       }}
       children={children}
     />

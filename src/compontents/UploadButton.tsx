@@ -9,11 +9,12 @@ import { Action, ActionColor, Cosmetic, CosmeticColor, LightSource, Map, Tile, T
  */
 
 const UploadButton: React.FC = (): JSX.Element => {
-  const { setDimensions, setTiles, setLights, setActions, setCosmetics } = useGlobal();
+  const { setDimensions, setTiles, setLights, setActions, setCosmetics, setName } = useGlobal();
   const updateMap: Function = (json: Map) => {
     if (typeof json != "object") return console.log("[Upload/Error] Json doesn't match the expected map format");
     const height: number = json?.height;
     const width: number = json?.width;
+    const name: string = json?.name || "Unnamed Map";
     if (!height || !width) return console.log("[Upload/Error] Json doesn't match the expected map format");
     const tiles: Array<Tile> =
       json?.tiles.filter(({ x, y, type }: Tile) => {
@@ -43,6 +44,7 @@ const UploadButton: React.FC = (): JSX.Element => {
     setLights(lights);
     setActions(actions);
     setCosmetics(cosmetics);
+    setName(name);
   };
 
   return (

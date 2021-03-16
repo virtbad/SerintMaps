@@ -15,10 +15,12 @@ const DownloadButton: React.FC = (): JSX.Element => {
     actions,
     lights,
     cosmetics,
+    name,
   } = useGlobal();
   const map: Map = {
     height: height,
     width: width,
+    name: name,
     tiles: tiles.sort((a, b) => a.y - b.y).sort((a, b) => (a.y === b.y ? a.x - b.x : 0)),
     lights: lights.sort((a, b) => a.y - b.y).sort((a, b) => (a.y === b.y ? a.x - b.x : 0)),
     actions: actions.sort((a, b) => a.y - b.y).sort((a, b) => (a.y === b.y ? a.x - b.x : 0)),
@@ -28,7 +30,7 @@ const DownloadButton: React.FC = (): JSX.Element => {
     <div className="action-button">
       <a
         href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(map))}`}
-        download={`map-${new Date().getTime()}.json`}
+        download={`${name}-${new Date().getTime()}.json`}
       >
         <svg
           className="action-button-svg"

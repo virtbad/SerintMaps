@@ -1,6 +1,7 @@
 export interface Map {
   height: number;
   width: number;
+  name: string;
   tiles: Array<Tile>;
   lights: Array<LightSource>;
   actions: Array<Action>;

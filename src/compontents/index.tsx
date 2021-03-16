@@ -11,6 +11,7 @@ import UploadButton from "./UploadButton";
 import ModeSelector from "./ModeSelector";
 import ActionSelector from "./ActionSelector";
 import CosmeticSelector from "./CosmeticSelector";
+import NameSelector from "./NameSelector";
 
 const App: React.FC = (): JSX.Element => {
   const { mode, setPen } = useGlobal();
@@ -72,10 +73,8 @@ const App: React.FC = (): JSX.Element => {
         <GameField />
       </div>
       <footer className="foot-container">
-        <div className="subcontainer"></div>
-        <div className="subcontainer">
-          <ModeSelector />
-        </div>
+        <div className="subcontainer" children={<NameSelector />} />
+        <div className="subcontainer" children={<ModeSelector />} />
         <div className="subcontainer version" children={version(Status.BETA)} />
       </footer>
     </main>
