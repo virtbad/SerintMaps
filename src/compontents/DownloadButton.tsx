@@ -38,12 +38,6 @@ const DownloadButton: React.FC = (): JSX.Element => {
       .sort((a, b) => (a.y === b.y ? a.x - b.x : 0))
       .map(({ y, ...cosmetic }) => ({ y: height - y - 1, ...cosmetic })),
   };
-  console.log(
-    tiles
-      .sort((a, b) => a.y - b.y)
-      .sort((a, b) => (a.y === b.y ? a.x - b.x : 0))
-      .map(({ y, ...tile }) => ({ y: height - y - 1, ...tile }))
-  );
 
   return (
     <div className="action-button">
