@@ -75,7 +75,7 @@ const App: React.FC = (): JSX.Element => {
       <footer className="foot-container">
         <div className="subcontainer" children={<NameSelector />} />
         <div className="subcontainer" children={<ModeSelector />} />
-        <div className="subcontainer version" children={version(Status.BETA)} />
+        <div className="subcontainer version" children={version(Status.PRERELEASE)} />
       </footer>
     </main>
   );

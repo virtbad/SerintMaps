@@ -16,6 +16,7 @@ const UploadButton: React.FC = (): JSX.Element => {
     const width: number = json?.width;
     const name: string = json?.name || "Unnamed Map";
     if (!height || !width) return console.log("[Upload/Error] Json doesn't match the expected map format");
+    const size: number = height * width;
     const tiles: Array<Tile> =
       json?.tiles.filter(({ x, y, type }: Tile) => {
         return x && y && Object.keys(TileColor).includes(type);
@@ -39,11 +40,11 @@ const UploadButton: React.FC = (): JSX.Element => {
         return x && y;
       }) || [];
 
-    setTiles(tiles);
+    setTiles(tiles.map(({ y, ...tile }) => ({ y: height - y - 1, ...tile })));
     setDimensions({ height: height, width: width });
-    setLights(lights);
-    setActions(actions);
-    setCosmetics(cosmetics);
+    setLights(lights.map(({ y, ...light }) => ({ y: height - y - 1, ...light })));
+    setActions(actions.map(({ y, ...action }) => ({ y: height - y - 1, ...action })));
+    setCosmetics(cosmetics.map(({ y, ...cosmetic }) => ({ y: height - y - 1, ...cosmetic })));
     setName(name);
   };
 

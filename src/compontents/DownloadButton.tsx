@@ -21,11 +21,30 @@ const DownloadButton: React.FC = (): JSX.Element => {
     height: height,
     width: width,
     name: name,
-    tiles: tiles.sort((a, b) => a.y - b.y).sort((a, b) => (a.y === b.y ? a.x - b.x : 0)),
-    lights: lights.sort((a, b) => a.y - b.y).sort((a, b) => (a.y === b.y ? a.x - b.x : 0)),
-    actions: actions.sort((a, b) => a.y - b.y).sort((a, b) => (a.y === b.y ? a.x - b.x : 0)),
-    cosmetics: cosmetics.sort((a, b) => a.y - b.y).sort((a, b) => (a.y === b.y ? a.x - b.x : 0)),
+    tiles: tiles
+      .sort((a, b) => a.y - b.y)
+      .sort((a, b) => (a.y === b.y ? a.x - b.x : 0))
+      .map(({ y, ...tile }) => ({ y: height - y - 1, ...tile })),
+    lights: lights
+      .sort((a, b) => a.y - b.y)
+      .sort((a, b) => (a.y === b.y ? a.x - b.x : 0))
+      .map(({ y, ...light }) => ({ y: height - y - 1, ...light })),
+    actions: actions
+      .sort((a, b) => a.y - b.y)
+      .sort((a, b) => (a.y === b.y ? a.x - b.x : 0))
+      .map(({ y, ...action }) => ({ y: height - y - 1, ...action })),
+    cosmetics: cosmetics
+      .sort((a, b) => a.y - b.y)
+      .sort((a, b) => (a.y === b.y ? a.x - b.x : 0))
+      .map(({ y, ...cosmetic }) => ({ y: height - y - 1, ...cosmetic })),
   };
+  console.log(
+    tiles
+      .sort((a, b) => a.y - b.y)
+      .sort((a, b) => (a.y === b.y ? a.x - b.x : 0))
+      .map(({ y, ...tile }) => ({ y: height - y - 1, ...tile }))
+  );
+
   return (
     <div className="action-button">
       <a

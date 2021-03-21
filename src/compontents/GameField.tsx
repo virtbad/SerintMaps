@@ -300,6 +300,8 @@ const GameField: React.FC = (): JSX.Element => {
     const tile: Tile | undefined = tiles.find(({ x, y }) => x === fieldX && y === fieldY);
     const action: Action | undefined = actions.find(({ x, y }) => x === fieldX && y === fieldY);
     const cosmetic: Cosmetic | undefined = cosmetics.find(({ x, y }) => x === fieldX && y === fieldY);
+    if (fieldX >= width || fieldX < 0 || fieldY < 0 || fieldY >= height) return false;
+
     switch (mode) {
       case "TILE":
         return !!tile;
@@ -335,6 +337,7 @@ const GameField: React.FC = (): JSX.Element => {
     const tile: Tile | undefined = tiles.find(({ x, y }) => x === fieldX && y === fieldY);
     const actionField: Action | undefined = actions.find(({ x, y }) => x === fieldX && y === fieldY);
     const cosmeticField: Cosmetic | undefined = cosmetics.find(({ x, y }) => x === fieldX && y === fieldY);
+    if (fieldX >= width || fieldX < 0 || fieldY < 0 || fieldY >= height) return false;
 
     switch (mode) {
       case "TILE":
