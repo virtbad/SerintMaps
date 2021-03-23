@@ -1,6 +1,17 @@
 import React from "react";
 import { useGlobal } from "../context/GlobalContext";
-import { Action, ActionColor, Cosmetic, CosmeticColor, LightSource, Map, Tile, TileColor } from "../types";
+import {
+  Action,
+  ActionColor,
+  Cosmetic,
+  CosmeticColor,
+  ExportTile,
+  ExportTileType,
+  LightSource,
+  Map,
+  Tile,
+  TileType,
+} from "../types";
 
 /**
  * Upload button component
@@ -18,22 +29,26 @@ const UploadButton: React.FC = (): JSX.Element => {
     if (!height || !width) return console.log("[Upload/Error] Json doesn't match the expected map format");
     const size: number = height * width;
     const tiles: Array<Tile> =
-      json?.tiles.filter(({ x, y, type }: Tile) => {
-        return x && y && Object.keys(TileColor).includes(type);
-      }) || [];
+      json?.tiles
+        .filter(({ x, y, type }: ExportTile) => {
+          return x != undefined && y != undefined && Object.keys(ExportTileType).includes(ExportTileType[type]);
+        })
+        .map(({ type, ...tile }) => ({ type: ExportTileType[type] as TileType, ...tile })) || [];
+
     const lights: Array<LightSource> =
       json?.lights.filter(({ x, y, intensity, color }: LightSource) => {
         if (!color || typeof color != "object") return false;
         const { r, g, b } = color;
-        console.log(color);
         if (r === undefined || g === undefined || b === undefined) return false;
         return x && y && intensity;
       }) || [];
+
     const actions: Array<Action> =
       json?.actions.filter(({ x, y, type }: Action) => {
         if (!Object.keys(ActionColor).includes(type)) return false;
         return x && y;
       }) || [];
+
     const cosmetics: Array<Cosmetic> =
       json?.cosmetics.filter(({ x, y, type }: Cosmetic) => {
         if (!Object.keys(CosmeticColor).includes(type)) return false;

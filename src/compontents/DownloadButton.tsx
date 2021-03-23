@@ -1,6 +1,6 @@
 import React from "react";
 import { useGlobal } from "../context/GlobalContext";
-import { Map } from "../types";
+import { ExportTileType, Map } from "../types";
 
 /**
  * Download button component
@@ -24,7 +24,7 @@ const DownloadButton: React.FC = (): JSX.Element => {
     tiles: tiles
       .sort((a, b) => a.y - b.y)
       .sort((a, b) => (a.y === b.y ? a.x - b.x : 0))
-      .map(({ y, ...tile }) => ({ y: height - y - 1, ...tile })),
+      .map(({ x, y, type }) => ({ y: height - y - 1, x: x, type: ExportTileType[type] })),
     lights: lights
       .sort((a, b) => a.y - b.y)
       .sort((a, b) => (a.y === b.y ? a.x - b.x : 0))

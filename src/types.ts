@@ -2,7 +2,7 @@ export interface Map {
   height: number;
   width: number;
   name: string;
-  tiles: Array<Tile>;
+  tiles: Array<ExportTile>;
   lights: Array<LightSource>;
   actions: Array<Action>;
   cosmetics: Array<Cosmetic>;
@@ -10,6 +10,17 @@ export interface Map {
 
 export interface Tile extends Point {
   type: TileType;
+}
+
+export interface ExportTile extends Point {
+  type: ExportTileType;
+}
+
+export enum ExportTileType {
+  "STONE" = 0,
+  "GRASS" = 2,
+  "GRAVEL" = 3,
+  "BRICK" = 5,
 }
 
 export interface LightSource extends Point {
