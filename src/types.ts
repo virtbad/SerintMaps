@@ -17,10 +17,10 @@ export interface ExportTile extends Point {
 }
 
 export enum ExportTileType {
-  "STONE" = 0,
+  "STONE" = 1,
   "GRASS" = 2,
   "GRAVEL" = 3,
-  "BRICK" = 5,
+  "BRICK" = 0,
 }
 
 export interface LightSource extends Point {
