@@ -45,7 +45,7 @@ When selected, you'll be able to select between different [ActionTypes](https://
 
 > The cosmetic mode allows the game to render cosmetic elements at this tile
 
-When selected, you'll be able to select between different [CosmeticTypes](https://github.com/virtbad/SerintMaps#CosmeticType) to allow the game to render additional cosmetic textures on this texture - for example a cobweb.
+When selected, you'll be able to enter an integer cosmetic type to allow the game to render additional cosmetic textures on this texture - for example a cobweb.
 
 ## Types
 
@@ -112,14 +112,8 @@ type ActionType = "ITEM" | "SPAWN";
 interface Cosmetic {
   x: number; //x coordinate of the Tile
   y: number; //y coordinate of the Tile
-  type: CosmeticType; //type of the Cosmetic
+  type: number; //integer type of the Cosmetic
 }
-```
-
-#### CosmeticType
-
-```TS
-type CosmeticType = "COBWEB" | "CRACK";
 ```
 
 ## License
