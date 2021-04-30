@@ -51,7 +51,7 @@ const UploadButton: React.FC = (): JSX.Element => {
 
     const cosmetics: Array<Cosmetic> =
       json?.cosmetics.filter(({ x, y, type }: Cosmetic) => {
-        if (!Object.keys(CosmeticColor).includes(type)) return false;
+        if (isNaN(parseInt(type + ""))) return false;
         return x && y;
       }) || [];
 

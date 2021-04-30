@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGlobal } from "../context/GlobalContext";
-import { CosmeticColor, CosmeticType } from "../types";
+import { SHA256 } from "crypto-js";
 
 const CosmeticSelector: React.FC = (): JSX.Element => {
   const { cosmetic, setCosmetic } = useGlobal();
 
   return (
     <>
-      {Object.entries(CosmeticColor).map(([key, value], index) => {
-        return (
-          <button
-            className="title-element button"
-            key={index}
-            style={{ borderColor: cosmetic === key ? value : "" }}
-            children={key[0] + key.substr(1).toLowerCase()}
-            onClick={() => setCosmetic(key as CosmeticType)}
-          />
-        );
-      })}
+      <input
+        type="number"
+        value={cosmetic}
+        className="rgb-input"
+        style={{
+          width: `${cosmetic.toString().length}ch`,
+          borderBottom: `solid 1px #${SHA256(cosmetic.toString()).toString().substr(0, 6)}`,
+        }}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setCosmetic(parseInt(event.target.value) || 0);
+        }}
+        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+          const isNumber: boolean = !isNaN(Number(event.key));
+          isNumber && parseInt(cosmetic + "" + event.key) < 256 && setCosmetic(parseInt(cosmetic + "" + event.key));
+        }}
+      />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { Action, ActionType, Cosmetic, CosmeticType, LightSource, Mode, RGB, Tile, TileType } from "../types";
+import { Action, ActionType, Cosmetic, LightSource, Mode, RGB, Tile, TileType } from "../types";
 
 interface Global {
   mode: Mode;
@@ -7,7 +7,7 @@ interface Global {
   rgb: RGB;
   intensity: number;
   action: ActionType;
-  cosmetic: CosmeticType;
+  cosmetic: number;
   tiles: Array<Tile>;
   lights: Array<LightSource>;
   actions: Array<Action>;
@@ -19,7 +19,7 @@ interface Global {
   setRgb: (rgb: RGB) => void;
   setIntensity: (intensity: number) => void;
   setAction: (action: ActionType) => void;
-  setCosmetic: (cosmetic: CosmeticType) => void;
+  setCosmetic: (cosmetic: number) => void;
   setTiles: (tiles: Array<Tile>) => void;
   setLights: (lights: Array<LightSource>) => void;
   setActions: (actions: Array<Action>) => void;
@@ -34,7 +34,7 @@ const defaultValue: Global = {
   rgb: { r: 0, g: 0, b: 255 },
   intensity: 2,
   action: "ITEM",
-  cosmetic: "CRACK",
+  cosmetic: 0,
   tiles: [],
   lights: [],
   actions: [],
@@ -63,7 +63,7 @@ export const GlobalProvider: React.FC = ({ children }): JSX.Element => {
   const [rgb, updateRgb] = useState<RGB>(defaultValue.rgb);
   const [intensity, updateIntensity] = useState<number>(defaultValue.intensity);
   const [action, updateAction] = useState<ActionType>(defaultValue.action);
-  const [cosmetic, updateCosmetic] = useState<CosmeticType>(defaultValue.cosmetic);
+  const [cosmetic, updateCosmetic] = useState<number>(defaultValue.cosmetic);
   const [tiles, updateTiles] = useState<Array<Tile>>(defaultValue.tiles);
   const [lights, updateLights] = useState<Array<LightSource>>(defaultValue.lights);
   const [actions, updateActions] = useState<Array<Action>>(defaultValue.actions);
@@ -81,7 +81,7 @@ export const GlobalProvider: React.FC = ({ children }): JSX.Element => {
 
   const setAction = (a: ActionType) => a !== action && updateAction(a);
 
-  const setCosmetic = (c: CosmeticType) => c !== cosmetic && updateCosmetic(c);
+  const setCosmetic = (c: number) => c !== cosmetic && updateCosmetic(c);
 
   const setTiles = (t: Array<Tile>) => t !== tiles && updateTiles(t);
 

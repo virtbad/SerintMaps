@@ -1,3 +1,4 @@
+import { SHA256 } from "crypto-js";
 import React, { useEffect, useRef, useState } from "react";
 import { useGlobal } from "../context/GlobalContext";
 import {
@@ -10,8 +11,6 @@ import {
   ActionType,
   ActionColor,
   Cosmetic,
-  CosmeticType,
-  CosmeticColor,
 } from "../types";
 
 const GameField: React.FC = (): JSX.Element => {
@@ -175,10 +174,10 @@ const GameField: React.FC = (): JSX.Element => {
    * @returns void
    */
 
-  const drawCosmetic: Function = (x: number, y: number, type: CosmeticType): void => {
+  const drawCosmetic: Function = (x: number, y: number, type: number): void => {
     if (!context) return;
     const lines: number = size > 50 ? 5 : 2; //(amount of lines / 2 ) - 1
-    context.strokeStyle = CosmeticColor[type];
+    context.strokeStyle = "#" + SHA256(type.toString()).toString().substr(0, 6);
     context.lineWidth = 1;
     for (let i = 0; i < lines; i++) {
       const section: number = (size / lines) * i;

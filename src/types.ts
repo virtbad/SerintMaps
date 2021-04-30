@@ -33,7 +33,7 @@ export interface Action extends Point {
 }
 
 export interface Cosmetic extends Point {
-  type: CosmeticType;
+  type: number;
 }
 
 export interface Point {
@@ -79,8 +79,6 @@ export enum CosmeticColor {
 export type TileType = "GRAVEL" | "GRASS" | "BRICK" | "STONE";
 
 export type ActionType = "ITEM" | "SPAWN";
-
-export type CosmeticType = "COBWEB" | "CRACK";
 
 export type Mode = "COSMETIC" | "ACTION" | "LIGHT" | "TILE";
 
