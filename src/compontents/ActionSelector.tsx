@@ -12,7 +12,7 @@ const ActionSelector: React.FC = () => {
             className="title-element button"
             key={index}
             style={{ borderColor: action === key ? value : "" }}
-            children={key[0] + key.substr(1).toLowerCase()}
+            children={key[0] + key.substring(1).toLowerCase()}
             onClick={() => setAction(key as ActionType)}
           />
         );

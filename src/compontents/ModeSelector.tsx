@@ -4,8 +4,7 @@ import { Mode, ModeColor } from "../types";
 
 /**
  * Mode selector component
- *
- * @returns JSX.Element
+ * @returns React.ReactNode
  */
 
 const ModeSelector: React.FC = () => {
@@ -18,7 +17,7 @@ const ModeSelector: React.FC = () => {
             className="title-element button"
             key={index}
             style={{ borderColor: mode === key ? value : "" }}
-            children={key[0] + key.substr(1).toLowerCase()}
+            children={key[0] + key.substring(1).toLowerCase()}
             onClick={() => setMode(key as Mode)}
           />
         );

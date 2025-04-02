@@ -1,10 +1,6 @@
 import React from "react";
 import { useGlobal } from "../context/GlobalContext";
 
-/**
- *
- */
-
 const DimensionsSelector: React.FC = () => {
   const { dimensions, setDimensions, setTiles, setLights, setActions, setCosmetics } = useGlobal();
   const { height, width } = dimensions;
@@ -24,12 +20,11 @@ const DimensionsSelector: React.FC = () => {
         style={{ width: `${height.toString().length}ch` }}
         value={height}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setDimensions({ ...dimensions, height: parseInt(event.target.value) || 0 });
-        }}
-        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-          const isNumber: boolean = !isNaN(Number(event.key));
-          isNumber && setDimensions({ ...dimensions, height: parseInt(height + event.key) });
-          isNumber && handleFieldReset();
+          const isNumber: boolean = !isNaN(Number(event.target.value));
+          const number = parseInt(event.target.value) || 0;
+          if (!isNumber) event.preventDefault();
+          else if (number < 0) event.preventDefault();
+          else setDimensions({ ...dimensions, height: number });
         }}
       />
       <p children="x" />
@@ -38,13 +33,12 @@ const DimensionsSelector: React.FC = () => {
         className="size-input"
         style={{ width: `${width.toString().length}ch` }}
         value={width}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          setDimensions({ ...dimensions, width: parseInt(event.target.value) || 0 })
-        }
-        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-          const isNumber: boolean = !isNaN(Number(event.key));
-          isNumber && setDimensions({ ...dimensions, width: parseInt(width + event.key) });
-          isNumber && handleFieldReset();
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          const isNumber: boolean = !isNaN(Number(event.target.value));
+          const number = parseInt(event.target.value) || 0;
+          if (!isNumber) event.preventDefault();
+          else if (number < 0) event.preventDefault();
+          else setDimensions({ ...dimensions, width: number })
         }}
       />
     </div>

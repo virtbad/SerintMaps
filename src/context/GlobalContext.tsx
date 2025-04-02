@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, PropsWithChildren, useContext, useState } from "react";
 import { Action, ActionType, Cosmetic, LightSource, Mode, RGB, Tile, TileType } from "../types";
 
 interface Global {
@@ -57,7 +57,7 @@ const defaultValue: Global = {
 
 export const GlobalContext = createContext<Global>(defaultValue);
 
-export const GlobalProvider: React.FC = ({ children }): JSX.Element => {
+export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }): React.ReactNode => {
   const [mode, updateMode] = useState<Mode>(defaultValue.mode);
   const [pen, updatePen] = useState<TileType>(defaultValue.pen);
   const [rgb, updateRgb] = useState<RGB>(defaultValue.rgb);

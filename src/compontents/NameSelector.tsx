@@ -12,10 +12,6 @@ const NameSelector: React.FC = () => {
         style={{ width: `${name.toString().length}ch` }}
         value={name}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
-        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-          if (event.key.length > 1) return;
-          setName(name + event.key);
-        }}
         onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
           if (event.target.value === "") setName("Unnamed Map");
         }}

@@ -15,11 +15,10 @@ import {
 
 /**
  * Upload button component
- *
- * @returns JSX.Element
+ * @returns React.ReactNode
  */
 
-const UploadButton: React.FC = (): JSX.Element => {
+const UploadButton: React.FC = (): React.ReactNode => {
   const { setDimensions, setTiles, setLights, setActions, setCosmetics, setName } = useGlobal();
   const updateMap: Function = (json: Map) => {
     if (typeof json != "object") return console.log("[Upload/Error] Json doesn't match the expected map format");

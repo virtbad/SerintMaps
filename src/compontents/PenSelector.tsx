@@ -4,11 +4,10 @@ import { TileColor, TileType } from "../types";
 
 /**
  * Component for the tile mode
- *
- * @returns JSX.Element
+ * @returns React.ReactNode
  */
 
-const PenSelector: React.FC = (): JSX.Element => {
+const PenSelector: React.FC = (): React.ReactNode => {
   const { pen, setPen } = useGlobal();
   return (
     <>
@@ -18,7 +17,7 @@ const PenSelector: React.FC = (): JSX.Element => {
             className="title-element button"
             key={index}
             style={{ borderColor: pen === key ? value : "" }}
-            children={key[0] + key.substr(1).toLowerCase()}
+            children={key[0] + key.substring(1).toLowerCase()}
             onClick={() => setPen(key as TileType)}
           />
         );

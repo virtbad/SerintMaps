@@ -13,37 +13,9 @@ import ActionSelector from "./ActionSelector";
 import CosmeticSelector from "./CosmeticSelector";
 import NameSelector from "./NameSelector";
 
-const App: React.FC = (): JSX.Element => {
-  const { mode, setPen } = useGlobal();
+const App: React.FC = (): React.ReactNode => {
+  const { mode } = useGlobal();
   const ref = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    document.addEventListener("keypress", handleKeypress);
-    return () => document.removeEventListener("keypress", handleKeypress);
-  }, []);
-
-  /**
-   * Handle a keypress on the document
-   *
-   * If the keyCode matches a given code a pen gets selected
-   *
-   * @param event KeyboardEvent
-   *
-   *  @returns void
-   */
-
-  const handleKeypress = (event: KeyboardEvent): void => {
-    const gravel: number = 43;
-    const grass: number = 34;
-    const brick: number = 42;
-    const stone: number = 231;
-    event.preventDefault();
-    const code: number = event.keyCode;
-    if (code === gravel) setPen("GRAVEL");
-    else if (code === grass) setPen("GRASS");
-    else if (code === brick) setPen("BRICK");
-    else if (code === stone) setPen("STONE");
-  };
 
   return (
     <main
@@ -75,7 +47,7 @@ const App: React.FC = (): JSX.Element => {
       <footer className="foot-container">
         <div className="subcontainer" children={<NameSelector />} />
         <div className="subcontainer" children={<ModeSelector />} />
-        <div className="subcontainer version" children={version(Status.PRERELEASE)} />
+        <div className="subcontainer version" children={version(Status.RELEASE)} />
       </footer>
     </main>
   );

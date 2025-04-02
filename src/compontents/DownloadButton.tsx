@@ -4,11 +4,10 @@ import { ExportTileType, Map } from "../types";
 
 /**
  * Download button component
- *
- * @returns JSX.Element
+ * @returns React.ReactNode
  */
 
-const DownloadButton: React.FC = (): JSX.Element => {
+const DownloadButton: React.FC = (): React.ReactNode => {
   const {
     tiles,
     dimensions: { width, height },

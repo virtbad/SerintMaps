@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useGlobal } from "../context/GlobalContext";
 import { SHA256 } from "crypto-js";
 
-const CosmeticSelector: React.FC = (): JSX.Element => {
+const CosmeticSelector: React.FC = (): React.ReactNode => {
   const { cosmetic, setCosmetic } = useGlobal();
 
   return (
@@ -13,14 +13,14 @@ const CosmeticSelector: React.FC = (): JSX.Element => {
         className="rgb-input"
         style={{
           width: `${cosmetic.toString().length}ch`,
-          borderBottom: `solid 1px #${SHA256(cosmetic.toString()).toString().substr(0, 6)}`,
+          borderBottom: `solid 1px #${SHA256(cosmetic.toString()).toString().substring(0, 6)}`,
         }}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setCosmetic(parseInt(event.target.value) || 0);
-        }}
-        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-          const isNumber: boolean = !isNaN(Number(event.key));
-          isNumber && parseInt(cosmetic + "" + event.key) < 256 && setCosmetic(parseInt(cosmetic + "" + event.key));
+          const isNumber: boolean = !isNaN(Number(event.target.value));
+          const number = parseInt(event.target.value) || 0;
+          if (!isNumber) event.preventDefault();
+          else if (number < 0 || number > 255) event.preventDefault();
+          else setCosmetic(parseInt(event.target.value) || 0);
         }}
       />
     </>

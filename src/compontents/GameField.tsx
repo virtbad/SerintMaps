@@ -13,7 +13,7 @@ import {
   Cosmetic,
 } from "../types";
 
-const GameField: React.FC = (): JSX.Element => {
+const GameField: React.FC = (): React.ReactNode => {
   const {
     tiles,
     setTiles,
@@ -59,7 +59,6 @@ const GameField: React.FC = (): JSX.Element => {
 
   /**
    * Resize handler to adjust the size of the canvas
-   *
    * @returns void
    */
 
@@ -67,7 +66,6 @@ const GameField: React.FC = (): JSX.Element => {
 
   /**
    * Redraw the whole map
-   *
    * @returns void
    */
 
@@ -83,17 +81,11 @@ const GameField: React.FC = (): JSX.Element => {
 
   /**
    * Paint or repaint a tile on the canvas
-   *
    * The parameter coordinates are not the pixel coordinates
-   *
    * they are the coordinates of the square on the field
-   *
    * @param x x coordinate of the square to be painted
-   *
    * @param y y coordinate of the square to be painted
-   *
    * @param type TileType to get the color
-   *
    * @returns void
    */
 
@@ -106,15 +98,10 @@ const GameField: React.FC = (): JSX.Element => {
 
   /**
    * Paint a light source on the canvas
-   *
    * @param x x coordinate of the light source in the canvas
-   *
    * @param y y coordinate of the light source in the canvas
-   *
    * @param intensity intensity of the light source
-   *
    * @param color color of the light source [RGB]
-   *
    * @returns void
    */
 
@@ -141,13 +128,9 @@ const GameField: React.FC = (): JSX.Element => {
 
   /**
    * Paint or repaint a action on the canvas
-   *
    * @param x x coordinate of the square to be painted
-   *
    * @param y y coordinate of the square to be painted
-   *
    * @param type ActionType to get the color
-   *
    * @returns void
    */
 
@@ -160,17 +143,11 @@ const GameField: React.FC = (): JSX.Element => {
 
   /**
    * Paint or repaint a cosmetic on the canvas
-   *
    * The parameter coordinates are not the pixel coordinates
-   *
    * they are the coordinates of the square on the field
-   *
    * @param x x coordinate of the square to be painted
-   *
    * @param y y coordinate of the square to be painted
-   *
    * @param type CosmeticType to get the color
-   *
    * @returns void
    */
 
@@ -196,9 +173,7 @@ const GameField: React.FC = (): JSX.Element => {
 
   /**
    * Handler for any paint event
-   *
    * @param event React.MouseEvent<HTMLCanvasElement, MouseEvent>
-   *
    * @returns void
    */
 
@@ -242,9 +217,7 @@ const GameField: React.FC = (): JSX.Element => {
 
   /**
    * Handler for any rub event
-   *
    * @param event React.MouseEvent<HTMLCanvasElement, MouseEvent>
-   *
    * @returns void
    */
 
@@ -283,13 +256,9 @@ const GameField: React.FC = (): JSX.Element => {
 
   /**
    * Method to prevent calling the same rub event on a tile multiple times
-   *
    * on dragging over to prevent lag
-   *
    * @param x x coordinate of the mouse in the canvas
-   *
    * @param y y coordinate of the mouse in the canvas
-   *
    * @returns boolean
    */
 
@@ -320,13 +289,9 @@ const GameField: React.FC = (): JSX.Element => {
 
   /**
    * Method to prevent calling the same paint event on a tile multiple times
-   *
    * on dragging over to prevent lag
-   *
    * @param x x coordinate of the mouse in the canvas
-   *
    * @param y y coordinate of the mouse in the canvas
-   *
    * @returns boolean
    */
 
@@ -374,9 +339,7 @@ const GameField: React.FC = (): JSX.Element => {
 
 /**
  * Function to get the hex value of a rgba color
- *
  * @param rgba Uint8ClampedArray
- *
  * @returns string
  */
 
@@ -387,9 +350,7 @@ const toHEX: Function = (rgba?: Uint8ClampedArray): string => {
 
 /**
  * Function to get the rgb value of a hex color
- *
  * @param hex string
- *
  * @returns object
  */
 
