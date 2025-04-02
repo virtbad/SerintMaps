@@ -1,6 +1,4 @@
-# [SerintMaps](https://maps.serint.ga)
-
-> [![Netlify Status](https://api.netlify.com/api/v1/badges/45ccb44a-e8d3-45f5-ace2-a00a8137f821/deploy-status)](https://app.netlify.com/sites/serint-maps/deploys)
+# [SerintMaps](https://virtbad.github.io/SerintMaps)
 
 > A map generator tool for the Serint project.
 
